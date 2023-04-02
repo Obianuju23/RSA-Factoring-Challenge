@@ -1,25 +1,27 @@
-#!/usr/bin/python3
-from sys import argv
-from math import sqrt
+#!/usr/bin/env python3
 
+import sys
 
-def factor():
-    with open(argv[1]) as f:
+def factorize(num):
+    """
+    Returns a list of tuples representing all the possible factorizations of the given number
+    into two smaller numbers (excluding 1 and the number itself).
+    """
+    factors = []
+    for i in range(2, int(num**0.5)+1):
+        if num % i == 0:
+            factors.append((i, num // i))
+    return factors
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: {} <file>".format(sys.argv[0]))
+        sys.exit(1)
+
+    filename = sys.argv[1]
+    with open(filename, 'r') as f:
         for line in f:
-            num = int(line)
-            print("{:d}=".format(num), end="")
-            if num % 2 == 0:
-                print("{}*2".format(num//2))
-                continue
-            sqn = int(sqrt(num))
-            if sqn % 2 == 0:
-                sqn += 1
-            for i in range(3, sqn + 1, 2):
-                if num % i == 0:
-                    print("{}*{}".format(i, num//i))
-                    break
-            if num % i != 0:
-                print("{}={}*1".format(num, num))
-
-
-factor()
+            num = int(line.strip())
+            factorizations = factorize(num)
+            for factorization in factorizations:
+                print("{}={}*{}".format(num, factorization[0], factorization[1]))
