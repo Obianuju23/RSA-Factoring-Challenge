@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#This is a factorization challenge
+# Factorize as many numbers as possible into a product of two smaller numbers.
+
+gcc factors.c -o a
+./a $1
+
